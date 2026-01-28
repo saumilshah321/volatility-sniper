@@ -1,0 +1,23 @@
+data:
+  source_url: "http://13.201.224.23:8001/"
+  
+indicators:
+  rsi_period: 14
+  bb_period: 20
+  bb_std_dev: 2.0
+  atr_period: 14
+
+strategy:
+  name: "Volatility Sniper"
+  rsi_oversold: 30
+  rsi_overbought: 70
+  
+risk_management:
+  stop_loss_pct: 0.02  # 2%
+  max_drawdown_pct: 0.20  # 20%
+  risk_per_trade: 0.02  # 2% of capital per trade
+  
+backtesting:
+  initial_capital: 100000
+  slippage_pct: 0.001  # 0.1%
+  transaction_cost_pct: 0.0005  # 0.05%
