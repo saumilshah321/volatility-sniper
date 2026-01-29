@@ -1,0 +1,173 @@
+/* Bloomberg Terminal Aesthetic CSS */
+
+/* Global Styles */
+body {
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family: Consolas, 'Courier New', Monaco, monospace;
+}
+
+/* Remove all rounded corners globally */
+* {
+    border-radius: 0 !important;
+}
+
+/* Streamlit Main Container */
+.main {
+    background-color: #000000;
+    padding: 0;
+}
+
+/* Sidebar Styling */
+[data-testid="stSidebar"] {
+    background-color: #121212;
+    border-right: 1px solid #333333;
+}
+
+[data-testid="stSidebar"] * {
+    color: #FFFFFF;
+    font-family: Consolas, 'Courier New', Monaco, monospace;
+}
+
+/* Headers */
+h1, h2, h3, h4, h5, h6 {
+    color: #FFFFFF;
+    font-family: Consolas, 'Courier New', Monaco, monospace;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Input Fields */
+input, textarea, select {
+    background-color: #121212 !important;
+    color: #FFFFFF !important;
+    border: 1px solid #333333 !important;
+    font-family: Consolas, 'Courier New', Monaco, monospace !important;
+}
+
+/* Number Inputs */
+[data-testid="stNumberInput"] input {
+    background-color: #121212 !important;
+    color: #00FF00 !important;
+}
+
+/* Buttons */
+button {
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+    border: 1px solid #333333 !important;
+    font-family: Consolas, 'Courier New', Monaco, monospace !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+button:hover {
+    border-color: #00FF00 !important;
+    color: #00FF00 !important;
+}
+
+/* Primary Button (Run Backtest) */
+button[kind="primary"] {
+    border: 2px solid #00FF00 !important;
+    color: #00FF00 !important;
+    font-weight: bold;
+}
+
+/* DataFrames */
+[data-testid="stDataFrame"] {
+    background-color: #000000 !important;
+}
+
+[data-testid="stDataFrame"] table {
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+    font-family: Consolas, 'Courier New', Monaco, monospace !important;
+    font-size: 14px;
+}
+
+[data-testid="stDataFrame"] th {
+    background-color: #121212 !important;
+    color: #00FF00 !important;
+    border-bottom: 2px solid #333333 !important;
+    font-weight: bold;
+}
+
+[data-testid="stDataFrame"] td {
+    background-color: #000000 !important;
+    border-bottom: 1px solid #1a1a1a !important;
+}
+
+[data-testid="stDataFrame"] tr:nth-child(even) td {
+    background-color: #0a0a0a !important;
+}
+
+/* Metric Cards */
+[data-testid="metric-container"] {
+    background-color: #121212;
+    border: 1px solid #333333;
+    padding: 16px;
+}
+
+[data-testid="stMetricValue"] {
+    color: #FFFFFF;
+    font-size: 48px;
+    font-family: Consolas, 'Courier New', Monaco, monospace;
+    font-weight: bold;
+}
+
+[data-testid="stMetricLabel"] {
+    color: #CCCCCC;
+    font-size: 14px;
+    font-family: Consolas, 'Courier New', Monaco, monospace;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Charts */
+.js-plotly-plot {
+    background-color: #000000 !important;
+}
+
+.plotly {
+    background-color: #000000 !important;
+}
+
+/* Remove Streamlit Branding */
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #121212;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333333;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #00FF00;
+}
+
+/* Links */
+a {
+    color: #00FF00;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+
+/* Disable animations and transitions */
+* {
+    transition: none !important;
+    animation: none !important;
+}
