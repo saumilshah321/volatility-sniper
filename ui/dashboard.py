@@ -472,10 +472,10 @@ def main():
     st.markdown(f"""
     <h1 style='text-align: center; color: {TERMINAL_GREEN}; font-family: {FONT_MONO}; 
     letter-spacing: 4px; font-size: 36px; margin-bottom: 0;'>
-    VOLATILITY SNIPER
+    ⚡ VOLATILITY SNIPER
     </h1>
     <p style='text-align: center; color: {TEXT_GREY}; font-size: 14px; letter-spacing: 2px;'>
-    ALGORITHMIC TRADING SYSTEM | MEAN REVERSION STRATEGY
+    DONCHIAN MOMENTUM BREAKOUT | TREND FOLLOWING SYSTEM
     </p>
     """, unsafe_allow_html=True)
     
