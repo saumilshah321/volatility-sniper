@@ -66,17 +66,30 @@ def generate_signals(df: pd.DataFrame, config: Dict[str, Any]) -> pd.DataFrame:
     df_signals['exit_signal'] = 0
     df_signals['signal_strength'] = 0.0
     
-    # Long entry condition
+    # Trend filter (optional)
+    use_trend_filter = config.get('strategy', {}).get('use_trend_filter', False)
+    if use_trend_filter and 'sma_200' in df_signals.columns:
+        trend_up = df_signals['close'] > df_signals['sma_200']
+        trend_down = df_signals['close'] < df_signals['sma_200']
+        logger.info("Using SMA trend filter for signal generation")
+    else:
+        # No filter - allow all trades
+        trend_up = True
+        trend_down = True
+    
+    # Long entry condition (with trend filter)
     long_condition = (
         (df_signals['rsi_14'] < rsi_oversold) & 
-        (df_signals['close'] < df_signals['bb_lower'])
+        (df_signals['close'] < df_signals['bb_lower']) &
+        trend_up  # Only long if price above SMA
     ).fillna(False)
     df_signals.loc[long_condition, 'signal'] = 1
     
-    # Short entry condition
+    # Short entry condition (with trend filter)
     short_condition = (
         (df_signals['rsi_14'] > rsi_overbought) & 
-        (df_signals['close'] > df_signals['bb_upper'])
+        (df_signals['close'] > df_signals['bb_upper']) &
+        trend_down  # Only short if price below SMA
     ).fillna(False)
     df_signals.loc[short_condition, 'signal'] = -1
     

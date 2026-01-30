@@ -196,6 +196,12 @@ def add_indicators(df: pd.DataFrame, config: Dict[str, Any]) -> pd.DataFrame:
     logger.info(f"Calculating ATR with period {atr_period}")
     df_enriched['atr_14'] = calculate_atr(df_enriched, period=atr_period)
     
+    # Calculate SMA for trend filter if configured
+    sma_period = config.get('indicators', {}).get('sma_period', 200)
+    if sma_period:
+        logger.info(f"Calculating SMA with period {sma_period} for trend filter")
+        df_enriched['sma_200'] = df_enriched['close'].rolling(window=sma_period, min_periods=sma_period).mean()
+    
     # Drop rows with NaN values from indicator warm-up period
     initial_rows = len(df_enriched)
     df_enriched = df_enriched.dropna()
