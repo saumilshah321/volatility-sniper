@@ -1,173 +1,391 @@
-/* Bloomberg Terminal Aesthetic CSS */
+/* ===== PREMIUM TRADING DASHBOARD - CYBERPUNK AESTHETIC ===== */
+
+/* Root Variables */
+:root {
+    --bg-primary: #0a0e27;
+    --bg-secondary: #151932;
+    --bg-card: rgba(21, 25, 50, 0.6);
+    --accent-cyan: #00f0ff;
+    --accent-purple: #b24bf3;
+    --accent-pink: #ff006e;
+    --text-primary: #ffffff;
+    --text-secondary: #8b92b0;
+    --success: #00ff88;
+    --danger: #ff3366;
+    --warning: #ffaa00;
+}
 
 /* Global Styles */
-body {
-    background-color: #000000;
-    color: #FFFFFF;
-    font-family: Consolas, 'Courier New', Monaco, monospace;
+.stApp {
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0a0e27 100%);
+    background-attachment: fixed;
 }
 
-/* Remove all rounded corners globally */
-* {
-    border-radius: 0 !important;
+/* Animated Background Grid */
+.stApp::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridMove 20s linear infinite;
+    pointer-events: none;
+    z-index: 0;
 }
 
-/* Streamlit Main Container */
-.main {
-    background-color: #000000;
-    padding: 0;
+@keyframes gridMove {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(50px, 50px);
+    }
+}
+
+/* Glassmorphism Cards */
+.element-container,
+.stMarkdown,
+div[data-testid="stMetricValue"] {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 240, 255, 0.1);
+    border-radius: 12px !important;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.element-container:hover {
+    border-color: rgba(0, 240, 255, 0.3);
+    box-shadow: 0 12px 48px rgba(0, 240, 255, 0.2);
+    transform: translateY(-2px);
 }
 
 /* Sidebar Styling */
-[data-testid="stSidebar"] {
-    background-color: #121212;
-    border-right: 1px solid #333333;
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #0a0e27 0%, #151932 100%);
+    border-right: 2px solid rgba(0, 240, 255, 0.2);
 }
 
-[data-testid="stSidebar"] * {
-    color: #FFFFFF;
-    font-family: Consolas, 'Courier New', Monaco, monospace;
+section[data-testid="stSidebar"]>div {
+    background: transparent;
 }
 
-/* Headers */
-h1, h2, h3, h4, h5, h6 {
-    color: #FFFFFF;
-    font-family: Consolas, 'Courier New', Monaco, monospace;
-    font-weight: bold;
-    letter-spacing: 1px;
+/* Sidebar Title */
+section[data-testid="stSidebar"] h1 {
+    color: var(--accent-cyan);
+    font-size: 1.8rem !important;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+    animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+
+    0%,
+    100% {
+        text-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+    }
+
+    50% {
+        text-shadow: 0 0 30px rgba(0, 240, 255, 0.8), 0 0 40px rgba(0, 240, 255, 0.4);
+    }
+}
+
+/* Metric Cards - Premium Design */
+div[data-testid="stMetric"] {
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.05) 0%, rgba(178, 75, 243, 0.05) 100%);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    border-radius: 16px !important;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+div[data-testid="stMetric"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+div[data-testid="stMetric"]:hover::before {
+    left: 100%;
+}
+
+div[data-testid="stMetric"]:hover {
+    transform: translateY(-4px) scale(1.02);
+    border-color: var(--accent-cyan);
+    box-shadow: 0 16px 48px rgba(0, 240, 255, 0.3);
+}
+
+/* Metric Labels */
+div[data-testid="stMetricLabel"] {
+    color: var(--text-secondary) !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* Metric Values */
+div[data-testid="stMetricValue"] {
+    color: var(--accent-cyan) !important;
+    font-size: 2.5rem !important;
+    font-weight: 800 !important;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+/* Positive Delta */
+div[data-testid="stMetricDelta"] svg[fill="rgb(9, 171, 59)"] {
+    fill: var(--success) !important;
+}
+
+div[data-testid="stMetricDelta"] {
+    color: var(--success) !important;
+    font-weight: 700 !important;
+}
+
+/* Negative Delta */
+div[data-testid="stMetricDelta"] svg[fill="rgb(255, 43, 43)"] {
+    fill: var(--danger) !important;
+}
+
+/* Buttons - Cyberpunk Style */
+.stButton>button {
+    background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    box-shadow: 0 4px 20px rgba(0, 240, 255, 0.4);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stButton>button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.stButton>button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.stButton>button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 240, 255, 0.6);
+}
+
+.stButton>button:active {
+    transform: translateY(0);
 }
 
 /* Input Fields */
-input, textarea, select {
-    background-color: #121212 !important;
-    color: #FFFFFF !important;
-    border: 1px solid #333333 !important;
-    font-family: Consolas, 'Courier New', Monaco, monospace !important;
+.stNumberInput>div>div>input,
+.stSelectbox>div>div>select {
+    background: rgba(21, 25, 50, 0.8) !important;
+    border: 1px solid rgba(0, 240, 255, 0.3) !important;
+    border-radius: 8px !important;
+    color: var(--text-primary) !important;
+    font-family: 'Courier New', monospace;
+    padding: 0.5rem !important;
+    transition: all 0.3s ease;
 }
 
-/* Number Inputs */
-[data-testid="stNumberInput"] input {
-    background-color: #121212 !important;
-    color: #00FF00 !important;
+.stNumberInput>div>div>input:focus,
+.stSelectbox>div>div>select:focus {
+    border-color: var(--accent-cyan) !important;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.3) !important;
 }
 
-/* Buttons */
-button {
-    background-color: #000000 !important;
-    color: #FFFFFF !important;
-    border: 1px solid #333333 !important;
-    font-family: Consolas, 'Courier New', Monaco, monospace !important;
+/* Success/Error Messages */
+.stSuccess {
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 255, 136, 0.05) 100%);
+    border-left: 4px solid var(--success);
+    border-radius: 8px;
+    padding: 1rem;
+    color: var(--success);
+    font-weight: 600;
+}
+
+.stError {
+    background: linear-gradient(135deg, rgba(255, 51, 102, 0.1) 0%, rgba(255, 51, 102, 0.05) 100%);
+    border-left: 4px solid var(--danger);
+    border-radius: 8px;
+    padding: 1rem;
+    color: var(--danger);
+    font-weight: 600;
+}
+
+.stWarning {
+    background: linear-gradient(135deg, rgba(255, 170, 0, 0.1) 0%, rgba(255, 170, 0, 0.05) 100%);
+    border-left: 4px solid var(--warning);
+    border-radius: 8px;
+    padding: 1rem;
+    color: var(--warning);
+    font-weight: 600;
+}
+
+/* Headers */
+h1,
+h2,
+h3 {
+    color: var(--text-primary) !important;
+    font-weight: 800 !important;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
 
-button:hover {
-    border-color: #00FF00 !important;
-    color: #00FF00 !important;
+h1 {
+    font-size: 2.5rem !important;
+    background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-/* Primary Button (Run Backtest) */
-button[kind="primary"] {
-    border: 2px solid #00FF00 !important;
-    color: #00FF00 !important;
-    font-weight: bold;
+/* Dividers */
+hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+    margin: 2rem 0;
 }
 
-/* DataFrames */
-[data-testid="stDataFrame"] {
-    background-color: #000000 !important;
+/* Loading Spinner */
+.stSpinner>div {
+    border-color: var(--accent-cyan) transparent transparent transparent !important;
 }
 
-[data-testid="stDataFrame"] table {
-    background-color: #000000 !important;
-    color: #FFFFFF !important;
-    font-family: Consolas, 'Courier New', Monaco, monospace !important;
-    font-size: 14px;
+/* Dataframe Styling */
+.dataframe {
+    background: rgba(21, 25, 50, 0.6) !important;
+    border: 1px solid rgba(0, 240, 255, 0.2) !important;
+    border-radius: 8px !important;
+    font-family: 'Courier New', monospace !important;
 }
 
-[data-testid="stDataFrame"] th {
-    background-color: #121212 !important;
-    color: #00FF00 !important;
-    border-bottom: 2px solid #333333 !important;
-    font-weight: bold;
-}
-
-[data-testid="stDataFrame"] td {
-    background-color: #000000 !important;
-    border-bottom: 1px solid #1a1a1a !important;
-}
-
-[data-testid="stDataFrame"] tr:nth-child(even) td {
-    background-color: #0a0a0a !important;
-}
-
-/* Metric Cards */
-[data-testid="metric-container"] {
-    background-color: #121212;
-    border: 1px solid #333333;
-    padding: 16px;
-}
-
-[data-testid="stMetricValue"] {
-    color: #FFFFFF;
-    font-size: 48px;
-    font-family: Consolas, 'Courier New', Monaco, monospace;
-    font-weight: bold;
-}
-
-[data-testid="stMetricLabel"] {
-    color: #CCCCCC;
-    font-size: 14px;
-    font-family: Consolas, 'Courier New', Monaco, monospace;
+.dataframe th {
+    background: rgba(0, 240, 255, 0.1) !important;
+    color: var(--accent-cyan) !important;
+    font-weight: 700 !important;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }
 
-/* Charts */
+.dataframe td {
+    color: var(--text-primary) !important;
+    border-color: rgba(0, 240, 255, 0.1) !important;
+}
+
+/* Plotly Chart Container */
 .js-plotly-plot {
-    background-color: #000000 !important;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
-.plotly {
-    background-color: #000000 !important;
-}
-
-/* Remove Streamlit Branding */
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
-
-/* Scrollbar Styling */
+/* Scrollbar */
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #121212;
+    background: var(--bg-secondary);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #333333;
+    background: linear-gradient(180deg, var(--accent-cyan), var(--accent-purple));
+    border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #00FF00;
+    background: var(--accent-cyan);
 }
 
-/* Links */
-a {
-    color: #00FF00;
-    text-decoration: none;
+/* Pulse Animation for Important Elements */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
 }
 
-a:hover {
-    color: #FFFFFF;
-    text-decoration: underline;
+.stButton>button[kind="primary"] {
+    animation: pulse 2s ease-in-out infinite;
 }
 
-/* Disable animations and transitions */
-* {
-    transition: none !important;
-    animation: none !important;
+/* Floating Animation */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Neon Glow Effect */
+.neon-text {
+    text-shadow:
+        0 0 10px var(--accent-cyan),
+        0 0 20px var(--accent-cyan),
+        0 0 30px var(--accent-cyan),
+        0 0 40px var(--accent-purple);
+}
+
+/* Hide Streamlit Branding */
+#MainMenu {
+    visibility: hidden;
+}
+
+footer {
+    visibility: hidden;
+}
+
+header {
+    visibility: hidden;
 }
