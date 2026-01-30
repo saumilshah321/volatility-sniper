@@ -167,37 +167,35 @@ def add_indicators(df: pd.DataFrame, config: Dict[str, Any]) -> pd.DataFrame:
     df_enriched = df.copy()
     
     # Extract indicator parameters from config
-    try:
-        rsi_period = config['indicators']['rsi_period']
-        bb_period = config['indicators']['bb_period']
-        bb_std_dev = config['indicators']['bb_std_dev']
-        atr_period = config['indicators']['atr_period']
-    except KeyError as e:
-        raise KeyError(f"Missing indicator configuration parameter: {e}")
+    atr_period = config.get('indicators', {}).get('atr_period', 14)
     
     logger.info("Calculating technical indicators...")
     
-    # Calculate RSI
-    logger.info(f"Calculating RSI with period {rsi_period}")
-    df_enriched['rsi_14'] = calculate_rsi(df_enriched['close'], period=rsi_period)
-    
-    # Calculate Bollinger Bands
-    logger.info(f"Calculating Bollinger Bands with period {bb_period}, std_dev {bb_std_dev}")
-    bb_upper, bb_middle, bb_lower = calculate_bollinger_bands(
-        df_enriched['close'], 
-        period=bb_period, 
-        std_dev=bb_std_dev
-    )
-    df_enriched['bb_upper'] = bb_upper
-    df_enriched['bb_middle'] = bb_middle
-    df_enriched['bb_lower'] = bb_lower
-    
-    # Calculate ATR
+    # Calculate ATR (required for position sizing)
     logger.info(f"Calculating ATR with period {atr_period}")
     df_enriched['atr_14'] = calculate_atr(df_enriched, period=atr_period)
     
+    # Calculate RSI and BB only if configured
+    if 'rsi_period' in config.get('indicators', {}):
+        rsi_period = config['indicators']['rsi_period']
+        logger.info(f"Calculating RSI with period {rsi_period}")
+        df_enriched['rsi_14'] = calculate_rsi(df_enriched['close'], period=rsi_period)
+    
+    if 'bb_period' in config.get('indicators', {}):
+        bb_period = config['indicators']['bb_period']
+        bb_std_dev = config['indicators']['bb_std_dev']
+        logger.info(f"Calculating Bollinger Bands with period {bb_period}, std_dev {bb_std_dev}")
+        bb_upper, bb_middle, bb_lower = calculate_bollinger_bands(
+            df_enriched['close'], 
+            period=bb_period, 
+            std_dev=bb_std_dev
+        )
+        df_enriched['bb_upper'] = bb_upper
+        df_enriched['bb_middle'] = bb_middle
+        df_enriched['bb_lower'] = bb_lower
+    
     # Calculate SMA for trend filter if configured
-    sma_period = config.get('indicators', {}).get('sma_period', 200)
+    sma_period = config.get('indicators', {}).get('sma_period')
     if sma_period:
         logger.info(f"Calculating SMA with period {sma_period} for trend filter")
         df_enriched['sma_200'] = df_enriched['close'].rolling(window=sma_period, min_periods=sma_period).mean()

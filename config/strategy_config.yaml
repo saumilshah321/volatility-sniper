@@ -2,24 +2,20 @@ data:
   source_url: "futures_minute (6).csv"
   
 indicators:
-  rsi_period: 14
-  bb_period: 20
-  bb_std_dev: 2.5  # Wider bands = more selective
   atr_period: 14
-  sma_period: 200
-
+  
 strategy:
-  name: "Volatility Sniper v3.0"
-  rsi_oversold: 30  # Standard RSI levels
-  rsi_overbought: 70
-  use_trend_filter: false  # Disable for more trades
+  name: "Donchian Momentum"
+  type: "breakout"
+  entry_window: 20  # Donchian channel for entry
+  exit_window: 10   # Trailing stop window
   
 risk_management:
-  stop_loss_multiplier: 3.0  # Wider stops
+  stop_loss_pct: 0.005  # 0.5% fixed stop
   max_drawdown_pct: 0.15
-  risk_per_trade: 0.02  # Back to 2%
+  risk_per_trade: 0.015  # 1.5%
   
 backtesting:
   initial_capital: 100000
-  slippage_pct: 0.0005  # Reduce slippage
-  transaction_cost_pct: 0.0003  # Reduce costs
+  slippage_pct: 0.0005
+  transaction_cost_pct: 0.0003
