@@ -153,28 +153,59 @@ def render_sidebar() -> Dict[str, Any]:
 
 def render_metrics_cards(metrics: Dict[str, Any]) -> None:
     """
-    Render performance metrics in Bloomberg Terminal style cards.
-    
-    Args:
-        metrics: Dictionary containing performance statistics
+    Render performance metrics with animated counters and premium design.
     """
+    # Animated Metrics Header
+    st.markdown("""
+    <div style="text-align: center; margin: 2rem 0;">
+        <h2 style="font-size: 2rem; font-weight: 800; 
+                   background: linear-gradient(135deg, #00f0ff 0%, #b24bf3 100%);
+                   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+                   text-transform: uppercase; letter-spacing: 3px;">
+            📊 Performance Metrics
+        </h2>
+    </div>
+    """, unsafe_allow_html=True)
+    
     col1, col2, col3 = st.columns(3)
     
     with col1:
         net_profit = metrics.get('final_equity', 0) - metrics.get('initial_capital', 0)
         total_return = metrics.get('total_return', 0)
-        profit_color = TERMINAL_GREEN if net_profit >= 0 else SIGNAL_RED
+        profit_color = "#00ff88" if net_profit >= 0 else "#ff3366"
         
+        # Animated profit card with glow effect
         st.markdown(f"""
-        <div style="background-color: {BG_DARK_GREY}; border: 1px solid #333; padding: 20px; text-align: center;">
-            <div style="color: #CCCCCC; font-size: 14px; letter-spacing: 2px; margin-bottom: 10px;">NET PROFIT</div>
-            <div style="color: {profit_color}; font-size: 48px; font-family: {FONT_MONO}; font-weight: bold;">
+        <div style="background: linear-gradient(135deg, rgba(0, 240, 255, 0.05) 0%, rgba(178, 75, 243, 0.05) 100%);
+                    border: 2px solid {profit_color}30;
+                    border-radius: 16px;
+                    padding: 2rem;
+                    text-align: center;
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 40px {profit_color}20;
+                    transition: all 0.3s ease;
+                    position: relative;
+                    overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 4px; 
+                        background: linear-gradient(90deg, transparent, {profit_color}, transparent);
+                        animation: shimmer 2s infinite;"></div>
+            <div style="color: #8b92b0; font-size: 0.9rem; font-weight: 700; 
+                        text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem;">
+                💰 Net Profit
+            </div>
+            <div style="color: {profit_color}; font-size: 3rem; font-weight: 900; 
+                        font-family: 'Courier New', monospace; text-shadow: 0 0 20px {profit_color}50;">
                 ${net_profit:,.2f}
             </div>
-            <div style="color: {profit_color}; font-size: 20px; margin-top: 10px;">
-                {total_return:.2%}
+            <div style="color: {profit_color}; font-size: 1.3rem; font-weight: 700; margin-top: 0.5rem;">
+                {total_return:+.2%}
             </div>
         </div>
+        <style>
+        @keyframes shimmer {{
+            0%, 100% {{ transform: translateX(-100%); }}
+            50% {{ transform: translateX(100%); }}
+        }}
+        </style>
         """, unsafe_allow_html=True)
     
     with col2:
@@ -182,12 +213,22 @@ def render_metrics_cards(metrics: Dict[str, Any]) -> None:
         dd_duration = metrics.get('max_drawdown_duration', 0)
         
         st.markdown(f"""
-        <div style="background-color: {BG_DARK_GREY}; border: 1px solid #333; padding: 20px; text-align: center;">
-            <div style="color: #CCCCCC; font-size: 14px; letter-spacing: 2px; margin-bottom: 10px;">MAX DRAWDOWN</div>
-            <div style="color: {SIGNAL_RED}; font-size: 48px; font-family: {FONT_MONO}; font-weight: bold;">
+        <div style="background: linear-gradient(135deg, rgba(255, 51, 102, 0.05) 0%, rgba(255, 170, 0, 0.05) 100%);
+                    border: 2px solid #ff336630;
+                    border-radius: 16px;
+                    padding: 2rem;
+                    text-align: center;
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 40px #ff336620;
+                    transition: all 0.3s ease;">
+            <div style="color: #8b92b0; font-size: 0.9rem; font-weight: 700; 
+                        text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem;">
+                📉 Max Drawdown
+            </div>
+            <div style="color: #ff3366; font-size: 3rem; font-weight: 900; 
+                        font-family: 'Courier New', monospace; text-shadow: 0 0 20px #ff336650;">
                 {max_dd:.2%}
             </div>
-            <div style="color: #CCCCCC; font-size: 16px; margin-top: 10px;">
+            <div style="color: #8b92b0; font-size: 1rem; margin-top: 0.5rem;">
                 Duration: {dd_duration} bars
             </div>
         </div>
@@ -196,19 +237,70 @@ def render_metrics_cards(metrics: Dict[str, Any]) -> None:
     with col3:
         win_rate = metrics.get('win_rate', 0)
         total_trades = metrics.get('total_trades', 0)
-        win_color = TERMINAL_GREEN if win_rate >= 0.5 else SIGNAL_RED
+        win_color = "#00ff88" if win_rate >= 0.5 else "#ffaa00"
         
         st.markdown(f"""
-        <div style="background-color: {BG_DARK_GREY}; border: 1px solid #333; padding: 20px; text-align: center;">
-            <div style="color: #CCCCCC; font-size: 14px; letter-spacing: 2px; margin-bottom: 10px;">WIN RATE</div>
-            <div style="color: {win_color}; font-size: 48px; font-family: {FONT_MONO}; font-weight: bold;">
+        <div style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(0, 240, 255, 0.05) 100%);
+                    border: 2px solid {win_color}30;
+                    border-radius: 16px;
+                    padding: 2rem;
+                    text-align: center;
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 40px {win_color}20;
+                    transition: all 0.3s ease;">
+            <div style="color: #8b92b0; font-size: 0.9rem; font-weight: 700; 
+                        text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem;">
+                🎯 Win Rate
+            </div>
+            <div style="color: {win_color}; font-size: 3rem; font-weight: 900; 
+                        font-family: 'Courier New', monospace; text-shadow: 0 0 20px {win_color}50;">
                 {win_rate:.1%}
             </div>
-            <div style="color: #CCCCCC; font-size: 16px; margin-top: 10px;">
+            <div style="color: #8b92b0; font-size: 1rem; margin-top: 0.5rem;">
                 Trades: {total_trades}
             </div>
         </div>
         """, unsafe_allow_html=True)
+    
+    # Secondary metrics row with progress bars
+    st.markdown("<div style='margin-top: 2rem;'></div>", unsafe_allow_html=True)
+    
+    col4, col5, col6, col7 = st.columns(4)
+    
+    metrics_data = [
+        ("⭐ Sharpe", metrics.get('sharpe_ratio', 0), "#00f0ff", 3),
+        ("💎 Profit Factor", metrics.get('profit_factor', 0), "#b24bf3", 3),
+        ("✅ Avg Win", metrics.get('avg_win_pct', 0) * 100, "#00ff88", 10),
+        ("❌ Avg Loss", abs(metrics.get('avg_loss_pct', 0)) * 100, "#ff3366", 10)
+    ]
+    
+    for col, (label, value, color, max_val) in zip([col4, col5, col6, col7], metrics_data):
+        with col:
+            progress = min(abs(value) / max_val, 1.0) if max_val > 0 else 0
+            display_val = f"{value:.2f}" if max_val <= 3 else f"{value:.1f}%"
+            
+            st.markdown(f"""
+            <div style="background: rgba(21, 25, 50, 0.6);
+                        border: 1px solid {color}30;
+                        border-radius: 12px;
+                        padding: 1.5rem;
+                        text-align: center;">
+                <div style="color: #8b92b0; font-size: 0.75rem; font-weight: 600; 
+                            text-transform: uppercase; margin-bottom: 0.5rem;">
+                    {label}
+                </div>
+                <div style="color: {color}; font-size: 1.8rem; font-weight: 800; 
+                            font-family: 'Courier New', monospace;">
+                    {display_val}
+                </div>
+                <div style="background: rgba(0, 0, 0, 0.3); height: 6px; border-radius: 3px; 
+                            margin-top: 0.75rem; overflow: hidden;">
+                    <div style="background: linear-gradient(90deg, {color}, {color}80); 
+                                height: 100%; width: {progress * 100}%; 
+                                border-radius: 3px; transition: width 1s ease;
+                                box-shadow: 0 0 10px {color}50;"></div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
 
 def render_price_chart(df: pd.DataFrame, trades: pd.DataFrame) -> None:
