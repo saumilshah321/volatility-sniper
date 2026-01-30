@@ -1,5 +1,5 @@
 data:
-  source_url: "http://13.201.224.23:8001/"
+  source_url: "futures_minute (6).csv"  # Local dataset file
   
 indicators:
   rsi_period: 14

@@ -20,21 +20,44 @@ def load_dataset(url: str, max_retries: int = 3) -> pd.DataFrame:
     # load dataset from URL with retries
     for attempt in range(max_retries):
         try:
-            logger.info(f"Attempting to fetch data from {url} (attempt {attempt + 1}/{max_retries})")
+            logger.info(f"Attempting to load data from {url} (attempt {attempt + 1}/{max_retries})")
             
-            response = requests.get(url, timeout=30)
-            response.raise_for_status()
+            # Check if URL is a local file
+            if not url.startswith('http'):
+                # Local file
+                logger.info(f"Loading local file: {url}")
+                df = pd.read_csv(url)
+            else:
+                # Remote URL
+                response = requests.get(url, timeout=30)
+                response.raise_for_status()
+                
+                # Try parsing as CSV with error handling
+                try:
+                    df = pd.read_csv(StringIO(response.text))
+                except:
+                    # If that fails, try reading with different separators
+                    try:
+                        df = pd.read_csv(StringIO(response.text), sep=',', on_bad_lines='skip')
+                    except:
+                        # Last resort: try space-separated
+                        df = pd.read_csv(StringIO(response.text), delim_whitespace=True, on_bad_lines='skip')
             
-            # Parse CSV data
-            df = pd.read_csv(StringIO(response.text))
-            
-            # Parse timestamp and set as index
-            if 'timestamp' in df.columns:
+            # Handle combined date+time columns
+            if 'date' in df.columns and 'time' in df.columns:
+                df['timestamp'] = pd.to_datetime(df['date'] + ' ' + df['time'])
+                df.set_index('timestamp', inplace=True)
+                df = df.drop(['date', 'time'], axis=1)
+            elif 'timestamp' in df.columns:
                 df['timestamp'] = pd.to_datetime(df['timestamp'])
                 df.set_index('timestamp', inplace=True)
             elif 'date' in df.columns:
                 df['date'] = pd.to_datetime(df['date'])
                 df.set_index('date', inplace=True)
+                df.index.name = 'timestamp'
+            elif 'time' in df.columns:
+                df['time'] = pd.to_datetime(df['time'])
+                df.set_index('time', inplace=True)
                 df.index.name = 'timestamp'
             else:
                 # If no timestamp column, assume first column is datetime
