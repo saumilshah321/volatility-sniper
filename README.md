@@ -2,9 +2,7 @@
 
 ## Overview
 
-**Volatility Sniper** is a mean reversion algorithmic trading strategy built for the **BatraHedge Algo-Trading Hackathon × Internship Drive** (E-Summit 2026).
-
-The strategy identifies oversold/overbought conditions using RSI and Bollinger Bands to capture reversal opportunities in volatile markets.
+**Volatility Sniper** is a mean reversion trading strategy that uses RSI and Bollinger Bands to find reversal opportunities in volatile markets.
 
 ## Strategy Logic
 
@@ -280,13 +278,6 @@ backtesting:
   transaction_cost_pct: 0.0005
 ```
 
-## Design Principles
-
-1. **Clean Architecture** - Strict separation between core logic and UI
-2. **Vectorized Operations** - All calculations use pandas/numpy (no loops)
-3. **Event-Driven Backtesting** - Bar-by-bar processing for realistic simulation
-4. **Configuration-Driven** - All parameters externalized to YAML
-5. **Professional Standards** - Type hints, docstrings, comprehensive error handling
 
 ## Dataset
 

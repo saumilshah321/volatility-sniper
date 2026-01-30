@@ -1,9 +1,4 @@
-"""
-Technical indicators calculation module.
-
-Implements RSI, Bollinger Bands, and ATR using vectorized pandas operations.
-All calculations avoid Python loops for optimal performance.
-"""
+# technical indicators - RSI, BB, ATR
 
 from typing import Dict, Any, Tuple
 import pandas as pd

@@ -1,9 +1,4 @@
-"""
-Volatility Sniper strategy implementation.
-
-Mean reversion strategy using RSI and Bollinger Bands for signal generation.
-Implements position sizing based on ATR and calculates stop-loss levels.
-"""
+# mean reversion strategy logic
 
 from typing import Dict, Any
 import pandas as pd
@@ -75,14 +70,14 @@ def generate_signals(df: pd.DataFrame, config: Dict[str, Any]) -> pd.DataFrame:
     long_condition = (
         (df_signals['rsi_14'] < rsi_oversold) & 
         (df_signals['close'] < df_signals['bb_lower'])
-    )
+    ).fillna(False)
     df_signals.loc[long_condition, 'signal'] = 1
     
     # Short entry condition
     short_condition = (
         (df_signals['rsi_14'] > rsi_overbought) & 
         (df_signals['close'] > df_signals['bb_upper'])
-    )
+    ).fillna(False)
     df_signals.loc[short_condition, 'signal'] = -1
     
     # Long exit condition

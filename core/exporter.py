@@ -1,13 +1,4 @@
-"""
-Submission artifacts export module.
-
-Handles export of all deliverables for hackathon submission including:
-- Equity curve CSV
-- Trade log CSV
-- Performance metrics JSON
-- Configuration snapshots YAML
-- Strategy documentation PDF
-"""
+# export submission artifacts
 
 from typing import Dict, Any, List, Tuple, Optional
 from pathlib import Path

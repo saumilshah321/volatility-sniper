@@ -1,11 +1,6 @@
-"""
-Performance metrics calculation module.
+# performance metrics calculation
 
-Calculates comprehensive statistics from backtest results including
-returns, risk metrics, and trade-level analysis.
-"""
-
-from typing import Dict, Any
+from typing import Dict, Any, List, Tuple
 import pandas as pd
 import numpy as np
 import logging

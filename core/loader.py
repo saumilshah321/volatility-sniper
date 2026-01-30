@@ -1,9 +1,4 @@
-"""
-Data loading and validation module.
-
-Handles fetching OHLCV data from BatraHedge URL, schema validation,
-and data cleaning operations. Implements retry logic for network resilience.
-"""
+# data loading and validation
 
 from typing import Optional
 import pandas as pd
@@ -22,19 +17,7 @@ class DataLoadError(Exception):
 
 
 def load_dataset(url: str, max_retries: int = 3) -> pd.DataFrame:
-    """
-    Load OHLCV dataset from URL with retry logic.
-    
-    Args:
-        url: URL to fetch CSV data from
-        max_retries: Maximum number of retry attempts (default: 3)
-        
-    Returns:
-        DataFrame with timestamp index and OHLCV columns
-        
-    Raises:
-        DataLoadError: If data fetch fails after all retries
-    """
+    # load dataset from URL with retries
     for attempt in range(max_retries):
         try:
             logger.info(f"Attempting to fetch data from {url} (attempt {attempt + 1}/{max_retries})")
@@ -80,18 +63,7 @@ def load_dataset(url: str, max_retries: int = 3) -> pd.DataFrame:
 
 
 def validate_schema(df: pd.DataFrame) -> bool:
-    """
-    Validate DataFrame schema and OHLC relationships.
-    
-    Args:
-        df: DataFrame to validate
-        
-    Returns:
-        True if schema is valid
-        
-    Raises:
-        DataLoadError: If validation fails with detailed error message
-    """
+    # validate OHLCV schema
     # Check required columns (case-insensitive)
     df_columns_lower = [col.lower() for col in df.columns]
     required_columns = ['open', 'high', 'low', 'close', 'volume']
@@ -142,15 +114,7 @@ def validate_schema(df: pd.DataFrame) -> bool:
 
 
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Clean and prepare data for analysis.
-    
-    Args:
-        df: DataFrame to clean
-        
-    Returns:
-        Cleaned DataFrame
-    """
+    # clean data and handle missing values
     df = df.copy()
     
     # Log initial state
@@ -162,11 +126,11 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     if missing_counts.any():
         logger.warning(f"Missing values detected:\n{missing_counts[missing_counts > 0]}")
         
-        # Forward fill price data (use last known price)
-        df[['open', 'high', 'low', 'close']] = df[['open', 'high', 'low', 'close']].fillna(method='ffill')
+        # Forward fill price data
+        df[['open', 'high', 'low', 'close']] = df[['open', 'high', 'low', 'close']].ffill()
         
-        # Fill any remaining NaNs at the start with backfill
-        df[['open', 'high', 'low', 'close']] = df[['open', 'high', 'low', 'close']].fillna(method='bfill')
+        # Fill any remaining NaNs at the start
+        df[['open', 'high', 'low', 'close']] = df[['open', 'high', 'low', 'close']].bfill()
         
         # Fill volume with 0 if missing
         df['volume'] = df['volume'].fillna(0)
@@ -206,15 +170,7 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def load_and_prepare_data(url: str) -> pd.DataFrame:
-    """
-    Convenience function to load, validate, and clean data in one call.
-    
-    Args:
-        url: URL to fetch CSV data from
-        
-    Returns:
-        Clean, validated DataFrame ready for analysis
-    """
+    # load, validate and clean data
     df = load_dataset(url)
     validate_schema(df)
     df = clean_data(df)

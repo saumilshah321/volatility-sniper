@@ -1,10 +1,4 @@
-"""
-Event-driven backtesting engine.
-
-Simulates trade execution bar-by-bar with realistic position management,
-risk controls (stop-loss, max drawdown), and execution costs (slippage,
-transaction fees).
-"""
+# backtesting engine
 
 from typing import Dict, Any, Tuple, Optional
 from dataclasses import dataclass, field
