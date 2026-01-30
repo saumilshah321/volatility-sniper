@@ -21,7 +21,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from core.config import load_config, validate_config, export_config
 from core.loader import load_and_prepare_data
 from core.indicators import add_indicators
-from core.strategy import generate_signals
+from core.strategy_donchian import generate_signals
 from core.backtester import run_backtest
 from core.metrics import calculate_all_metrics
 
